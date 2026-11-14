@@ -75,7 +75,7 @@ button:focus-visible,.nd:focus-visible{outline:2px solid var(--seal);outline-off
 .org li.solo{padding-top:0}
 .org ul ul:before{content:"";position:absolute;top:0;left:44px;height:20px;border-left:1px solid #cbbd9f}
 .org>ul{padding-top:0}.org>ul>li{padding-top:0}
-.box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 6px 7px;width:88px;text-align:center;line-height:1.3;position:relative}
+.box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 6px 8px;width:88px;text-align:center;line-height:1.3;position:relative}
 .box.has{cursor:pointer}.box.has:hover{border-color:#c8b893}
 .box .g{display:block;font-size:11px;line-height:1.3;color:var(--soft)}
 .box .h{display:block;font:700 14px/1.35 "Nanum Myeongjo",serif;white-space:nowrap}
@@ -83,7 +83,10 @@ button:focus-visible,.nd:focus-visible{outline:2px solid var(--seal);outline-off
 .box .s{display:block;font-size:11px;color:var(--soft);margin-top:3px}
 .box .c{position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);font-size:11px;line-height:16px;min-width:22px;padding:0 6px;border-radius:999px;background:var(--gold);color:#fff;white-space:nowrap}
 .box .c:empty{display:none}
-.box.d{background:var(--sealbg);border-color:#f0cfc5}.box.d .h{color:var(--seal)}
+.box .l1{display:block;font:700 14px/1.4 "Nanum Myeongjo",serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.box .l1 .g{display:inline;font:400 11px "Noto Sans KR",sans-serif;color:var(--soft);margin-right:4px}
+.box .l2{display:block;font-size:11px;line-height:1.4;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.box.d{background:var(--sealbg);border-color:#f0cfc5}.box.d .l1{color:var(--seal)}
 .box.me{background:var(--seal);border-color:var(--seal)}.box.me *{color:#fff!important}
 .hint{font-size:13px;color:var(--soft);margin:8px 0 0}
 .card.wide{grid-column:1/-1}
@@ -334,7 +337,7 @@ const build=x=>{
  const li=document.createElement('li');
  const d=document.createElement('div');
  d.className='box'+(x.d==2?' me':x.d?' d':'')+(x.c.length?' has':'');
- d.innerHTML=`<span class="g">${x.g}세</span>${x.h?`<span class="h">${x.h}</span><span class="k">${x.k}</span>`:`<span class="h">${x.k}</span>`}${x.s?`<span class="s">${x.s}</span>`:''}${x.c.length?'<span class="c"></span>':''}`;
+ const l2=[x.h,x.s].filter(Boolean).join(' · ');d.title=`${x.g}세 ${x.k}${l2?' · '+l2:''}`;d.innerHTML=`<span class="l1"><span class="g">${x.g}세</span>${x.k}</span><span class="l2">${l2||'&nbsp;'}</span>${x.c.length?'<span class="c"></span>':''}`;
  li.appendChild(d);
  if(x.c.length){
   const ul=document.createElement('ul');const kids=x.c.map(y=>build(y));kids.forEach(k=>ul.appendChild(k));li.appendChild(ul);
