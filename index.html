@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>청주경씨 석촌공 세계도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 격식 있고 따뜻한 문중 기록, 여백 많은 족자
+   IDEA: 사당에 걸린 족자와 한지 세계도, 붉은 인장
+   PICTURE: 먹선 하나로 내려오는 직계 스물여덟 대의 줄기, 업적 있는 분은 인주색 낙관
+   COLOUR and TYPE: 흰 바탕 #ffffff, 먹 #1c1813, 인주 #b4301c, 금빛 보조 #a8812f / 나눔명조 + Noto Sans KR
+   LAYOUT: 먹색 족자 머리 → 직계 줄기 → 업적 → 전체 세계도 → 메모 */
+:root{color-scheme:light;
+--bg:#ffffff;--paper:#ffffff;--ink:#1c1813;--soft:#6e6a62;--line:#e7e2d8;--seal:#b4301c;
+--sealbg:#fbece7;--gold:#a8812f;--head:#ffffff;--headink:#1c1813}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "Noto Sans KR",system-ui,sans-serif;overflow-x:clip}
+.serif{font-family:"Nanum Myeongjo",serif}
+.head{background:var(--head);color:var(--headink);border-bottom:1px solid var(--line);padding:clamp(36px,7vw,80px) max(5vw,18px) clamp(30px,5vw,56px);position:relative;overflow:hidden}
+.head:before{content:"";position:absolute;inset:auto -10% -60% auto;width:70vw;max-width:620px;aspect-ratio:1;border-radius:50%;border:1px solid #f1ece2}
+.hin{max-width:900px;margin:0 auto;display:flex;gap:clamp(18px,4vw,40px);align-items:center}
+.seal{flex:none;width:clamp(64px,13vw,104px);aspect-ratio:1;background:#b4301c;border-radius:8px;display:grid;place-items:center;color:#fbefe6;font:800 clamp(38px,8vw,64px)/1 "Nanum Myeongjo",serif;box-shadow:inset 0 0 0 4px #b4301c,inset 0 0 0 6px #f3cbbf;transform:rotate(-3deg)}
+.eyebrow{font-size:14px;color:var(--gold);margin:0 0 4px}
+h1{font:800 clamp(30px,6.4vw,52px)/1.08 "Nanum Myeongjo",serif;margin:0;text-wrap:balance}
+.lede{margin:12px 0 0;color:var(--soft);font-size:15px;max-width:52ch}
+.wrap{max-width:900px;margin:0 auto;padding:0 max(5vw,16px)}
+h2{font:800 clamp(24px,4.4vw,32px)/1.15 "Nanum Myeongjo",serif;margin:0 0 6px}
+.sec{padding:clamp(34px,6vw,64px) 0 0}
+.sec>p.d{color:var(--soft);margin:0 0 22px;font-size:15px}
+.spine{position:relative;margin:0;padding:0;list-style:none}
+.spine:before{content:"";position:absolute;left:59px;top:30px;bottom:14px;width:0;border-left:1px dashed #d9cdb6}
+.spine li{display:grid;grid-template-columns:44px 30px minmax(0,1fr);align-items:center;gap:0 14px;padding:7px 0}
+.sg{font-size:12px;color:var(--soft);text-align:right}
+.dot{width:12px;height:12px;border-radius:50%;background:#fff;border:1.5px solid #c8b893;justify-self:center;position:relative;z-index:1}
+.sb{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.sh{font:700 20px/1.3 "Nanum Myeongjo",serif}
+.sk{font-size:14px;color:var(--soft)}
+.sn{font-size:13px;color:var(--soft);flex-basis:100%}
+.spine li.star .dot{background:var(--seal);border-color:var(--seal);width:18px;height:18px}
+.spine li.star .sh{color:var(--seal)}
+.spine li.star .sn{color:var(--ink)}
+.spine li.era{display:block;padding:22px 0 10px;position:relative;z-index:1}
+.spine li.era:first-child{padding-top:0}
+.era-b{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;background:var(--bg);padding:6px 16px 6px 0;margin-left:0}
+.era-n{font:800 22px/1.2 "Nanum Myeongjo",serif;color:var(--ink);background:var(--sealbg);border:1px solid #f0cfc5;border-radius:999px;padding:4px 16px}
+.era-p{font-size:13px;color:var(--gold)}
+.era-d{display:block;font-size:13px;color:var(--soft);margin:6px 0 0 4px;max-width:56ch}
+.spine li.gap{display:block;padding:8px 0 0 74px;font-size:13px;color:var(--soft);font-style:italic}
+.spine li.me .sb{background:var(--seal);color:#fff;border-radius:10px;padding:10px 14px}
+.spine li.me .sh,.spine li.me .sk,.spine li.me .sn{color:#fff}
+.spine li.me .dot{background:var(--seal);border-color:var(--seal);width:22px;height:22px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px}
+.card{background:var(--paper);border:1px solid var(--line);box-shadow:0 1px 2px rgba(28,24,19,.04);border-radius:14px;padding:20px 20px 18px}
+.card .who{display:flex;align-items:baseline;gap:8px;margin:0 0 2px}
+.card .who b{font:800 24px/1.2 "Nanum Myeongjo",serif;color:var(--seal)}
+.card .yr{font-size:13px;color:var(--gold);margin:0 0 10px}
+.card p{margin:0;font-size:15px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px}
+button{font:500 15px "Noto Sans KR",sans-serif;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,.nd:focus-visible{outline:2px solid var(--seal);outline-offset:2px}
+.key{display:flex;gap:14px;font-size:13px;color:var(--soft);margin-left:auto}
+.key i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px clamp(8px,3vw,22px)}
+.sheet ul{list-style:none;margin:0;padding-left:16px;border-left:1px solid var(--line)}
+.sheet>ul{padding-left:0;border-left:none}
+.sheet li{margin:2px 0}
+.nd{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;padding:6px 8px;border-radius:8px;line-height:1.45}
+.nd.has{cursor:pointer}.nd.has:hover{background:#f6f3ee}
+.g{font-size:12px;color:var(--soft);width:34px;flex:none}
+.h{font:700 17px "Nanum Myeongjo",serif}
+.k{font-size:14px;color:var(--soft)}
+.s{font-size:13px;color:var(--soft)}
+.c{font-size:12px;color:var(--gold);margin-left:auto;white-space:nowrap}
+.nd.d{background:var(--sealbg)}.nd.d .h{color:var(--seal)}
+.nd.me{background:var(--seal)}.nd.me *{color:#fff!important}
+.card.wide{grid-column:1/-1}
+.chron{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.chron li{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;font-size:15px}
+.chron b{color:var(--gold);font-weight:500;font-variant-numeric:tabular-nums}
+.root{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:start}
+.root p{margin:0 0 12px;font-size:16px}
+.fact{background:#faf8f4;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.fact .big{font:800 34px/1.1 "Nanum Myeongjo",serif;color:var(--seal)}
+.fact .lab{font-size:13px;color:var(--soft);margin:2px 0 14px}
+.fact .lab:last-child{margin-bottom:0}
+@media(max-width:700px){.root{grid-template-columns:minmax(0,1fr)}}
+.kin{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.kin li{background:#faf8f4;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;white-space:nowrap}
+.kin li b{font:700 15px "Nanum Myeongjo",serif}
+.kin li.hl{background:var(--sealbg);border-color:#f0cfc5}.kin li.hl b{color:var(--seal)}
+.kin .ar{background:none;border:none;padding:0;color:var(--soft)}
+.kin .gap{background:none;border:1px dashed var(--line);color:var(--soft)}
+.kin-note{font-size:13px;color:var(--soft);margin:10px 0 0}
+.notes{background:#faf8f4;border-left:3px solid var(--gold);padding:16px 20px;margin:0;font-size:15px;color:var(--soft)}
+.notes p{margin:0 0 10px}.notes p:last-child{margin:0}
+footer{padding:40px 0 56px;font-size:13px;color:var(--soft)}
+@media(max-width:600px){.spine li.gap{padding-left:58px}.era-n{font-size:19px}.hin{flex-direction:column;align-items:flex-start}.key{margin-left:0}.spine:before{left:50px}.spine li{grid-template-columns:36px 30px minmax(0,1fr);gap:0 10px}.sh{font-size:18px}}
+@media(prefers-reduced-motion:no-preference){.spine li{animation:up .5s ease both;animation-delay:calc(var(--i)*35ms)}@keyframes up{from{opacity:0;transform:translateY(6px)}}}
+</style>
+</head>
+<body>
+<header class="head">
+<div class="hin">
+<div class="seal" aria-hidden="true">慶</div>
+<div>
+<p class="eyebrow">淸州慶氏 石村公 驪州宗會 世系圖</p>
+<h1>청주경씨 석촌공<br>여주종회 세계도</h1>
+<p class="lede">고려 광종 때 귀화한 경경(慶鏡)에서 비롯해, 평장공 경진과 중시조 상서공 경번, 석촌공 경섬을 거쳐 오늘의 29세까지. 사당의 세계도와 신주, 유래 현판을 함께 읽어 정리했습니다.</p>
+</div>
+</div>
+</header>
+
+<main class="wrap">
+<section class="sec">
+<h2>청주경씨의 뿌리</h2>
+<p class="d">사당에 걸린 '연원'과 '유래' 현판을 옮겨 정리했습니다.</p>
+<div class="root">
+<div>
+<p>청주경씨는 <b>960년(고려 광종 11)</b> 중원의 태학사 <b>경경(慶鏡, 정의공)</b>이 고려로 귀화하면서 이 땅에 뿌리를 내렸습니다. 족보 서문에는 경씨의 근본이 제나라 공족인 강씨(姜氏)이며, 제 환공의 손자 경극(慶克)이 이름의 첫 글자를 성으로 삼았다고 전합니다. 그래서 먼 원조를 태공망 강상(강태공)으로 봅니다.</p>
+<p>역사에 처음 이름이 보이는 분은 1057년(문종 11) 직한림에 오른 <b>경정상(慶鼎相)</b>입니다. 그 뒤 명종 때 무신으로 정의광정대부 평장사 지문하성사에 오른 <b>평장공 경진(慶珍)</b>은 성품이 호방하고 무예가 뛰어났으며, 부지런히 산업을 일으켜 큰 장원을 이루었다고 합니다. 아들 <b>대장군 경대승</b>은 정중부를 주살하고 왕권을 회복했습니다.</p>
+<p>정의공에서 평장공까지 159년의 가승이 전하지 않아, 문중은 <b>1670년(현종 11) 경술보</b>를 펴내며 평장공을 시조로 모셨습니다. 대승 이후 30여 년은 세계가 끊겨, 고려 고종 때 호부상서를 지낸 <b>상서공 경번(慶蕃)</b>을 1세 중시조로 삼습니다. 6세 습(習)의 아들 호암공 지(智)와 참판공 여(餘) 형제에게서 전국의 청주경씨가 갈라졌고, 우리 집안은 <b>참판공 여의 후손</b>입니다.</p>
+</div>
+<div class="fact">
+<div class="big">960년</div><div class="lab">경경이 고려로 귀화</div>
+<div class="big">1670년</div><div class="lab">첫 족보 경술보 편찬</div>
+<div class="big">19개 파</div><div class="lab">호암공·참판공 형제의 후손으로 분파</div>
+<div class="big">11,145명</div><div class="lab">3,414가구 (현판 기록 기준)</div>
+</div>
+</div>
+<h2 style="margin-top:40px">강태공과의 관계</h2>
+<p class="d" style="margin-bottom:0">족보 서문과 중국 문헌이 전하는 성씨의 기원입니다. 경씨는 본래 강(姜)씨에서 갈라진 성이라는 것입니다.</p>
+<ol class="kin">
+<li class="hl"><b>태공망 강상</b> 강태공 · 제나라 시조</li><li class="ar">→</li>
+<li class="gap">여러 대</li><li class="ar">→</li>
+<li><b>제 환공</b> 춘추시대 제나라 임금</li><li class="ar">→</li>
+<li><b>무휴(無虧)</b> 환공의 아들</li><li class="ar">→</li>
+<li class="hl"><b>경극(慶克)</b> 일명 경부 · 이름의 '慶'을 성으로</li><li class="ar">→</li>
+<li class="gap">중원의 경씨</li><li class="ar">→</li>
+<li class="hl"><b>경경(慶鏡)</b> 960년 고려 귀화</li><li class="ar">→</li>
+<li class="gap">159년 가승 끊김</li><li class="ar">→</li>
+<li class="hl"><b>평장공 경진</b> 청주경씨 시조</li>
+</ol>
+<p class="kin-note">근거: 청주경씨 무진보 서문 "본래 강씨로 제나라 공족이었으나 경으로 성을 삼았다", 중국 『통지 씨족략』과 『중화성씨대전』. 강태공에서 경극까지는 중국 문헌의 계보이고, 경극에서 경경까지와 경경에서 경진까지는 기록이 이어지지 않아 문중에서는 구전과 문헌을 상고한 원조로 모십니다.</p>
+</section>
+
+<section class="sec">
+<h2>직계 계보</h2>
+<p class="d">경우선(28세)에 이르는 한 줄기를 시대별로 나눴습니다. 붉은 점은 기록에 업적이 남은 조상입니다. 11~13세는 기록된 생년이고, 그 아래 세대의 시기는 한 세대를 약 28년으로 잡아 추정했습니다.</p>
+<ol class="spine" id="spine"></ol>
+</section>
+
+<section class="sec">
+<h2>조상의 업적</h2>
+<p class="d">문헌으로 확인되는 직계 조상의 행적입니다.</p>
+<div class="cards">
+<article class="card"><div class="who"><b>경진</b><span class="sk">慶珍 · 시조 평장공</span></div><p class="yr">고려 명종 대</p><p>조위총의 난 평정에 공을 세워 정의광정대부 평장사 지문하성사에 올랐습니다. 무예가 뛰어나고 산업을 일으켜 큰 장원을 이뤘다고 전합니다.</p></article>
+<article class="card"><div class="who"><b>경대승</b><span class="sk">慶大升 · 대장군</span></div><p class="yr">1154 ~ 1183</p><p>1179년 스물여섯에 정중부를 주살하고 왕권을 회복했습니다. 사병 기구 도방을 처음 두었고, 아버지가 빼앗은 땅문서를 나라에 바쳐 청렴하다는 평을 들었습니다.</p></article>
+<article class="card"><div class="who"><b>경번</b><span class="sk">慶蕃 · 1세 상서공</span></div><p class="yr">고려 고종 대</p><p>문과에 급제해 정의대부 호부상서 평장사에 이른 중시조입니다. 오늘의 청주경씨 세계는 이분을 1세로 셉니다.</p></article>
+<article class="card"><div class="who"><b>경복흥</b><span class="sk">慶復興 · 4세 시중공</span></div><p class="yr">? ~ 1380</p><p>공민왕 때 문하시중을 지내고 청원부원군에 봉해졌습니다. 시호는 정렬입니다.</p></article>
+<article class="card"><div class="who"><b>경혼</b><span class="sk">慶渾 · 11세 제학공</span></div><p class="yr">1498 ~ 1568</p><p>문과에 급제해 대사간, 홍문관 부제학, 이조참판을 지냈습니다. 헌납공 시성의 아버지입니다.</p></article>
+<article class="card"><div class="who"><b>경시성</b><span class="sk">慶時成 · 12세 헌납공</span></div><p class="yr">1536 ~ 1595</p><p>1562년 별시문과에 급제해 예문관 검열, 홍문관 교리, 사간원 헌납을 지냈고 예천을 다스리며 청렴한 선정으로 칭송받았습니다. 당쟁의 폐단을 개탄해 벼슬을 내려놓고 여강(여주)으로 낙향하니, 여주 문중의 시작입니다. 자헌대부 이조판서 겸 양관 대제학에 증직되었습니다.</p></article>
+<article class="card wide"><div class="who"><b>경섬</b><span class="sk">慶暹 · 13세 석촌공 · 자 퇴보, 호 석촌·칠송</span></div><p class="yr">1562 ~ 1620</p>
+<p>헌납공의 장자로 곧고 충성스러운 성품에 문명이 사림에 널리 알려졌습니다. 임진왜란 뒤 첫 외교사절로 일본에 가서 국교를 열고 포로 1,418명을 데려왔으며, 그 일기 『해사록(海槎錄)』은 중요한 외교 사료로 평가받습니다.</p>
+<ol class="chron">
+<li><b>1590</b><span>사마시 진사, 증광시 병과 급제 · 승문원 정자</span></li>
+<li><b>1598</b><span>진주사 서장관으로 명나라에 다녀옴</span></li>
+<li><b>1599</b><span>시강원 필선, 사헌부 장령, 사옹원정</span></li>
+<li><b>1606</b><span>성균관 사성, 홍문관 교리 · 회답겸쇄환사로 일본 사행, 시즈오카 세이켄지(淸見寺)에 남긴 시 현판이 지금도 전함 · 동부승지</span></li>
+<li><b>1608</b><span>우부승지, 우승지, 황해도 감사</span></li>
+<li><b>1611</b><span>좌승지, 병조참의, 홍주목사 · 1613년 선정비가 홍성 대교리에 남음</span></li>
+<li><b>1616</b><span>충청감사, 경기도 관찰사, 세자좌부빈객</span></li>
+<li><b>1617</b><span>호조참판, 장례원 판결사 · 이조참판 명을 받았으나 병으로 취임 못함</span></li>
+<li><b>1620</b><span>58세로 별세, 여주 흥천면 대당리에 정부인 완산이씨와 안장</span></li>
+</ol></article>
+<article class="card"><div class="who"><b>경유후</b><span class="sk">慶有後 · 14세 감역공</span></div><p class="yr">조선 중기</p><p>석촌공의 아들로 사산감역을 지냈고 이조참판에 증직되었습니다. 이분의 일곱 아들에게서 여주종회의 여러 가지가 뻗었습니다.</p></article>
+</div>
+</section>
+
+<section class="sec">
+<h2>전체 세계도</h2>
+<p class="d">이름을 누르면 아래 가지가 펼쳐집니다.</p>
+<div class="bar">
+<button id="co" class="on">직계만</button><button id="ex">모두 펼치기</button>
+<span class="key"><span><i style="background:var(--sealbg)"></i>직계</span><span><i style="background:var(--seal)"></i>본인</span></span>
+</div>
+<div class="sheet" id="tree"></div>
+</section>
+
+<section class="sec">
+<h2>판독 메모</h2>
+<div class="notes">
+<p>26세 문현 옆의 '系'는 양자로 입적했다는 뜻입니다. 석주 계열에 출계 표시가 붙은 문현이 있어 그쪽에서 오신 것으로 보입니다.</p>
+<p>경유후의 아들 경최(慶冣, 1626~1688)가 도승지를 지냈다는 기록이 있습니다. 15세 신강공의 글자와 모양이 비슷해 같은 분일 가능성이 있으나 확인이 필요합니다.</p>
+<p>9세 면(綿)은 여주 흥천면 상백리에 묘가 있는 진산공으로 전해집니다. 배위 본관은 사당 신주를 읽은 것이며, 24세 이하 방계 일부는 글자가 작아 요약했습니다.</p>
+</div>
+</section>
+<footer>출처: 사당 세계도 액자·신주·연원과 유래 현판·헌납공과 석촌공 행장 현판, 위키백과 '청주 경씨', 조선왕조실록사전 '경섬', 충북인뉴스, 고려사 열전 경대승</footer>
+</main>
+
+<script>
+{
+const n=(g,h,k,s,d,c)=>({g,h,k,s:s||'',d:d||0,c:c||[]});
+const T12=n(12,'時成','시성','헌납공 · 증 이조판서',1,[
+ n(13,'暹','섬','석촌공 · 호조참판',1,[
+  n(14,'有後','유후','감역공 · 증 이조참판',1,[
+   n(15,'寔','식','',0,[n(16,'一會','일회')]),
+   n(15,'実','실','',0,[n(16,'雲會','운회')]),
+   n(15,'寅','인','통덕랑 · 파평윤씨, 충주지씨',0,[
+    n(16,'德會','덕회','무후'),
+    n(16,'昌會','창회','통덕랑 · 전주이씨',0,[
+     n(17,'旼','민','밀양박씨',0,[n(18,'來休','내휴','봉화정씨',0,[n(19,'櫓','로','여흥민씨',0,[n(20,'光國','광국','경주김씨',0,[n(21,'燁','엽','',0,[
+      n(22,'賢重','현중','나주정씨',0,[
+       n(23,'錫琦','석기','',0,[n(24,'奎浩','규호','',0,[n(25,'達秀','달수','',0,[n(26,'伯顯','백현','',0,[n(27,'','규륙','진선, 해리')]),n(26,'再顯','재현','',0,[n(27,'','규성')])])])]),
+       n(23,'錫瑨','석진','',0,[n(24,'琦浩','기호','',0,[n(25,'完秀','완수','',0,[n(26,'大顯','대현','민주, 영주'),n(26,'士顯','사현','민경'),n(26,'采顯','채현','가영, 가은')]),n(25,'宅秀','택수','',0,[n(26,'東顯','동현','윤아')])]),n(24,'張浩','장호','석현가로 출계')])]),
+      n(22,'大重','대중','여주향교 장의 · 안동권씨',0,[n(23,'錫玹','석현','',0,[n(24,'張浩','장호','양자',0,[n(25,'辛秀','신수','',0,[n(26,'日顯','일현','준성')]),n(25,'宗秀','종수','',0,[n(26,'芙顯','부현')])])])])
+     ])])])])])
+    ])
+   ]),
+   n(15,'寂','적','신강공',1,[
+    n(16,'良會','양회','무후'),n(16,'善會','선회','무후'),
+    n(16,'三會','삼회','통덕랑 · 공인 양성이씨',1,[
+     n(17,'曙','서','배위 파주정씨',1,[n(18,'泰運','태운','배위 여양진씨',1,[
+      n(19,'樂','락','출계'),
+      n(19,'楫','즙','배위 안동권씨',1,[
+       n(20,'恒國','항국','무후'),
+       n(20,'憲國','헌국','배위 해주오씨, 청풍김씨',1,[
+        n(21,'煌','황','의령남씨',0,[
+         n(22,'河重','하중','영월엄씨',0,[n(23,'錫鳳','석봉','양자',0,[n(24,'宗浩','종호','',0,[n(25,'龍秀','용수','',0,[n(26,'時顯','시현','',0,[n(27,'','규학','민선')])])])])]),
+         n(22,'洛重','낙중','의령남씨',0,[n(23,'錫龍','석룡','창호·맹호·일호'),n(23,'錫萬','석만','영호·맹호')]),
+         n(22,'漢重','한중','훈 할아버지께 출계')]),
+        n(21,'薰','훈','신주는 勳 · 여흥민씨',0,[
+         n(22,'漢重','한중','양자 · 동래정씨, 여흥민씨',0,[n(23,'錫麟','석린','일호·구호'),n(23,'錫鳳','석봉','출계'),n(23,'錫龜','석귀','대호'),n(23,'錫騏','석기','한호·춘호')])]),
+        n(21,'默','묵','',1,[
+         n(22,'元重','원중','배위 풍천임씨',1,[
+          n(23,'錫周','석주','',0,[n(24,'南浩','남호','무후'),n(24,'時浩','시호','',0,[n(25,'允秀','윤수','옥 할아버지께 출계'),n(25,'益秀','익수','',0,[n(26,'武顯','무현','',0,[n(27,'','규열','지혜, 남선'),n(27,'','규진','회선, 천선'),n(27,'','규철','지선')]),n(26,'文顯','문현','만수 할아버지께 출계')])])]),
+          n(23,'鈺','옥','',0,[n(24,'啓浩','계호','무후'),n(24,'東浩','동호','',0,[n(25,'允秀','윤수','양자',0,[n(26,'德顯','덕현','',0,[n(27,'','규황','가람'),n(27,'','규성','일선, 태선'),n(27,'','규삼','진이'),n(27,'','규명','부선, 인선')]),n(26,'乙顯','을현')])])]),
+          n(23,'鎬','호','배위 완산류씨',1,[n(24,'性浩','성호','',1,[n(25,'萬秀','만수','증조부',1,[n(26,'文顯','문현','조부 · 양자로 입적',1,[
+           n(27,'','규완','부친',1,[n(28,'','정원','라현, 제준'),n(28,'','원선','준우, 민준'),n(28,'','우선','본인 · 자녀 진희, 채은',2)]),
+           n(27,'','규인','',0,[n(28,'','이선','수연, 제혁'),n(28,'','태선','제빈'),n(28,'','보선','제엽, 제영')]),
+           n(27,'','규재','',0,[n(28,'','해선'),n(28,'','기선','제원, 제우'),n(28,'','광선','제호')]),
+           n(27,'','규설')
+          ])])])])
+         ])])
+       ])
+      ])
+     ])])
+    ])
+   ]),
+   n(15,'寘','치','판독 불확실'),n(15,'宏','굉'),n(15,'寓','우')
+  ])
+ ]),
+ n(13,'遲','지'),n(13,'選','선'),n(13,'達','달','출계')
+]);
+
+const T=n(1,'蕃','번','상서공 · 호부상서 · 중시조',1,[n(2,'綏','수','판례공',1,[n(3,'斯萬','사만','대언공',1,[n(4,'復興','복흥','시중공 · 문하시중',1,[
+ n(5,'補','보','무후'),n(5,'臻','진','무후'),
+ n(5,'儀','의','순절공',1,[n(6,'習','습','중승공',1,[
+  n(7,'智','지','호암공 · 형제 파',0,[n(8,'由善','유선'),n(8,'由謹','유근')]),
+  n(7,'餘','여','참판공',1,[
+   n(8,'由淳','유순'),n(8,'由厚','유후','무후'),n(8,'由溫','유온','무후'),n(8,'由惇','유돈'),n(8,'由恭','유공','병마절도사'),
+   n(8,'由亨','유형','',1,[
+    n(9,'緋','비'),n(9,'維','유','',0,[n(10,'世廉','세렴'),n(10,'世愼','세신')]),
+    n(9,'綿','면','진산공',1,[n(10,'世淸','세청','지평공 · 증 이조참판',1,[
+     n(11,'沉','침'),n(11,'深','심','',0,[n(12,'時貞','시정'),n(12,'時經','시경')]),
+     n(11,'渾','혼','제학공 · 이조참판',1,[n(12,'時英','시영'),n(12,'時衡','시형'),T12]),
+     n(11,'溦','미'),n(11,'潛','잠')])])
+   ])
+  ])
+ ])])
+])])])]);
+const E={
+ top:{n:'고려',p:'12~14세기',d:'시조 평장공과 대장군 대승, 그리고 중시조 상서공 경번부터 문하시중 복흥까지입니다.'},
+ 5:{n:'조선 전기',p:'14세기 말~16세기',d:'7세 참판공 여(餘)에게서 우리 파가 갈라지고, 11세 제학공 혼이 이조참판에 오릅니다.'},
+ 12:{n:'조선 중기',p:'16~17세기',d:'헌납공 시성이 여강(여주)으로 낙향하며 여주 문중이 시작되고, 석촌공 경섬이 일본 사행을 다녀옵니다.'},
+ 17:{n:'조선 후기',p:'17세기 후반~19세기 초',d:'여주에서 대를 이어 살며 문중이 여러 갈래로 나뉘었습니다.'},
+ 23:{n:'근대',p:'19세기~20세기 초',d:'개항과 격변의 시기를 지나 증조부 대에 이릅니다.'},
+ 26:{n:'현대',p:'20세기~오늘',d:'조부 문현부터 우선 님과 자녀까지입니다.'}};
+const era=e=>`<li class="era"><span class="era-b"><span class="era-n">${e.n}</span><span class="era-p">${e.p}</span></span><span class="era-d">${e.d}</span></li>`;
+const row=(r,i)=>`<li class="${r.st?'star':''}${r.me?' me':''}" style="--i:${i}"><span class="sg">${r.g}</span><span class="dot"></span><div class="sb">${r.h?`<span class="sh">${r.h}</span><span class="sk">${r.k}</span>`:`<span class="sh">${r.k}</span>`}${r.s?`<span class="sn">${r.s}</span>`:''}</div></li>`;
+const stars={'蕃':1,'復興':1,'渾':1,'時成':1,'暹':1,'有後':1,'三會':1};
+const L=[era(E.top),row({g:'시조',h:'慶珍',k:'경진',s:'평장공 · 평장사 지문하성사',st:1},0),row({g:'',h:'慶大升',k:'경대승',s:'대장군 · 정중부 주살, 왕권 회복',st:1},1),'<li class="gap">이후 30여 년은 세계가 불분명</li>'];
+let x=T,i=2;
+while(x){if(E[x.g])L.push(era(E[x.g]));L.push(row({g:x.g+'세',h:x.h,k:x.k,s:x.s,st:stars[x.h]?1:0,me:x.d==2},i++));x=x.c.find(y=>y.d)}
+L.push(row({g:'29세',h:'',k:'진희 · 채은',s:'자녀'},i));
+document.getElementById('spine').innerHTML=L.join('');
+const all=[];
+const set=(o,open)=>{o.ul.style.display=open?'':'none';o.t.textContent=open?'접기':'펼치기 '+o.x.c.length;o.el.setAttribute('aria-expanded',open)};
+const build=x=>{
+ const li=document.createElement('li');
+ const d=document.createElement('div');
+ d.className='nd'+(x.d==2?' me':x.d?' d':'')+(x.c.length?' has':'');
+ d.innerHTML=`<span class="g">${x.g}세</span>${x.h?`<span class="h">${x.h}</span><span class="k">${x.k}</span>`:`<span class="h">${x.k}</span>`}${x.s?`<span class="s">${x.s}</span>`:''}${x.c.length?'<span class="c"></span>':''}`;
+ li.appendChild(d);
+ if(x.c.length){
+  const ul=document.createElement('ul');x.c.forEach(y=>ul.appendChild(build(y)));li.appendChild(ul);
+  const o={x,ul,t:d.querySelector('.c'),el:d};all.push(o);
+  d.tabIndex=0;d.setAttribute('role','button');
+  const tg=()=>set(o,ul.style.display==='none');
+  d.addEventListener('click',tg);d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tg()}});
+ }
+ return li;
+};
+const root=document.createElement('ul');root.appendChild(build(T));document.getElementById('tree').appendChild(root);
+const co=document.getElementById('co'),ex=document.getElementById('ex');
+const directOnly=()=>{all.forEach(o=>set(o,!!o.x.d));co.classList.add('on');ex.classList.remove('on')};
+directOnly();
+ex.addEventListener('click',()=>{all.forEach(o=>set(o,true));ex.classList.add('on');co.classList.remove('on')});
+co.addEventListener('click',directOnly);
+}
+</script>
+</body>
+</html>
