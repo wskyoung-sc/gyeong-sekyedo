@@ -116,7 +116,14 @@ button:focus-visible,.nd:focus-visible{outline:2px solid var(--seal);outline-off
 .cands{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.cands:empty{display:none}
 .cands button{min-height:40px;font-size:14px;border-radius:10px}
 .cands button small{color:var(--soft);margin-left:6px}
-.notes{background:#faf8f4;border-left:3px solid var(--gold);padding:16px 20px;margin:0;font-size:15px;color:var(--soft)}
+.bar.sticky{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0;margin-bottom:6px}
+.zoom{display:inline-flex;align-items:center;gap:4px;margin-left:auto}
+.zoom button{min-width:44px;padding:0 12px;font-size:18px}
+.zoom #zf{font-size:15px}
+.zoom span{min-width:48px;text-align:center;font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums}
+.sheet{touch-action:pan-x pan-y}
+@media(max-width:600px){.zoom{margin-left:0;width:100%}.zoom #zf{margin-left:auto}}
+background:#faf8f4;border-left:3px solid var(--gold);padding:16px 20px;margin:0;font-size:15px;color:var(--soft)}
 .notes p{margin:0 0 10px}.notes p:last-child{margin:0}
 footer{padding:40px 0 56px;font-size:13px;color:var(--soft)}
 @media(max-width:600px){.spine li.gap{padding-left:58px}.era-n{font-size:19px}.hin{flex-direction:column;align-items:flex-start}.key{margin-left:0}.spine:before{left:50px}.spine li{grid-template-columns:36px 30px minmax(0,1fr);gap:0 10px}.sh{font-size:18px}}
@@ -210,12 +217,13 @@ footer{padding:40px 0 56px;font-size:13px;color:var(--soft)}
 <section class="sec">
 <h2>전체 세계도</h2>
 <p class="d">족보 액자처럼 위에서 아래로 내려오는 조직도입니다. 고조부 아래 4대는 모두 펼쳐 두었습니다. 직계 칸의 숫자를 누르면 그 대의 형제들이, 다른 칸의 숫자를 누르면 그 아래 자손이 펼쳐집니다.</p>
-<div class="bar">
+<div class="bar sticky">
 <button id="co" class="on">직계만</button><button id="ex">모두 펼치기</button><button id="fm">내 위치</button>
+<span class="zoom" role="group" aria-label="세계도 크기"><button id="zo" aria-label="작게">−</button><span id="zl">100%</span><button id="zi" aria-label="크게">+</button><button id="zf">한눈에</button></span>
 <span class="key"><span><i style="background:var(--sealbg)"></i>직계</span><span><i style="background:var(--seal)"></i>본인</span></span>
 </div>
 <div class="sheet" id="tree"><div class="org" id="org"></div></div>
-<p class="hint">화면이 좁으면 옆으로 밀어서 보세요.</p>
+<p class="hint">두 손가락으로 벌리거나 오므려 크기를 바꿀 수 있습니다. 컴퓨터에서는 Ctrl을 누른 채 휠을 돌리세요.</p>
 </section>
 
 <section class="sec">
@@ -371,6 +379,17 @@ document.getElementById('pick').addEventListener('submit',e=>{
  cands.innerHTML=hit.map((x,i)=>`<button type="button" data-i="${nodes.indexOf(x)}">${x.g}세 ${nm(x)}<small>${x.p?nm(x.p)+'의 자녀':''}</small></button>`).join('');
 });
 cands.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;choose(nodes[+b.dataset.i]);cands.innerHTML='';err.textContent='';document.getElementById('spine').scrollIntoView({behavior:'smooth',block:'start'})});
+const zl=document.getElementById('zl');let Z=1;
+const setZ=z=>{Z=Math.min(2,Math.max(0.3,Math.round(z*100)/100));org.style.zoom=Z;zl.textContent=Math.round(Z*100)+'%';try{localStorage.setItem('gyeong-zoom',Z)}catch(e){}};
+document.getElementById('zi').addEventListener('click',()=>setZ(Z+0.1));
+document.getElementById('zo').addEventListener('click',()=>setZ(Z-0.1));
+document.getElementById('zf').addEventListener('click',()=>{org.style.zoom=1;const w=org.scrollWidth;setZ(Math.min(1,(sc.clientWidth-8)/w));sc.scrollLeft=0});
+let pd=0,pz=1;const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+sc.addEventListener('touchstart',e=>{if(e.touches.length===2){pd=dist(e.touches);pz=Z}},{passive:true});
+sc.addEventListener('touchmove',e=>{if(e.touches.length===2&&pd){e.preventDefault();setZ(pz*dist(e.touches)/pd)}},{passive:false});
+sc.addEventListener('touchend',e=>{if(e.touches.length<2)pd=0});
+sc.addEventListener('wheel',e=>{if(e.ctrlKey||e.metaKey){e.preventDefault();setZ(Z*(e.deltaY<0?1.1:0.9))}},{passive:false});
+try{const v=parseFloat(localStorage.getItem('gyeong-zoom'));if(v)setZ(v)}catch(e){}
 ex.addEventListener('click',()=>{all.forEach(o=>set(o,'all'));ex.classList.add('on');co.classList.remove('on');sc.scrollLeft=0});
 co.addEventListener('click',directOnly);
 document.getElementById('fm').addEventListener('click',()=>{all.forEach(o=>{if(o.x.d&&o.m==='closed')set(o,'direct')});findMe();const m=sc.querySelector('.box.me');if(m)m.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'})});
