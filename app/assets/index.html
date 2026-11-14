@@ -64,17 +64,16 @@ button:focus-visible,.nd:focus-visible{outline:2px solid var(--seal);outline-off
 .key{display:flex;gap:14px;font-size:13px;color:var(--soft);margin-left:auto}
 .key i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px}
 .sheet{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 12px 26px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.org{display:inline-block;min-width:100%}
-.org ul{display:flex;justify-content:center;margin:0;padding:20px 0 0;list-style:none;position:relative}
-.org li{display:flex;flex-direction:column;align-items:center;position:relative;padding:20px 3px 0}
-.org li:before,.org li:after{content:"";position:absolute;top:0;right:50%;width:50%;height:20px;border-top:1px solid #cbbd9f}
-.org li:after{right:auto;left:50%;border-left:1px solid #cbbd9f}
+.org{display:inline-block;min-width:100%;padding:0 12px}
+.org ul{display:flex;justify-content:flex-start;align-items:flex-start;margin:0;padding:20px 0 0;list-style:none;position:relative}
+.org li{display:flex;flex-direction:column;align-items:flex-start;position:relative;padding:20px 6px 0 0}
+.org li:before{content:"";position:absolute;top:0;left:44px;height:20px;border-left:1px solid #cbbd9f}
+.org li:after{content:"";position:absolute;top:0;left:0;right:0;border-top:1px solid #cbbd9f}
+.org li.fv:after{left:44px}
+.org li.lv:after{right:auto;width:45px}
 .org li.solo:before,.org li.solo:after{display:none}
 .org li.solo{padding-top:0}
-.org li.fv:before,.org li.lv:after{border:0}
-.org li.lv:before{border-right:1px solid #cbbd9f;border-radius:0 8px 0 0}
-.org li.fv:after{border-radius:8px 0 0 0}
-.org ul ul:before{content:"";position:absolute;top:0;left:50%;height:20px;border-left:1px solid #cbbd9f}
+.org ul ul:before{content:"";position:absolute;top:0;left:44px;height:20px;border-left:1px solid #cbbd9f}
 .org>ul{padding-top:0}.org>ul>li{padding-top:0}
 .box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 6px 7px;width:88px;text-align:center;line-height:1.3;position:relative}
 .box.has{cursor:pointer}.box.has:hover{border-color:#c8b893}
@@ -347,7 +346,7 @@ const build=x=>{
  return li;
 };
 const sc=document.getElementById('tree'),org=document.getElementById('org');
-const findMe=()=>{const m=sc.querySelector('.box.me');if(!m)return;const a=m.getBoundingClientRect(),b=sc.getBoundingClientRect();sc.scrollLeft+=(a.left+a.width/2)-(b.left+b.width/2)};
+const findMe=()=>{const m=sc.querySelector('.box.me');if(!m)return;const a=m.getBoundingClientRect(),b=sc.getBoundingClientRect();sc.scrollLeft=Math.max(0,sc.scrollLeft+(a.left-b.left)-24)};
 const co=document.getElementById('co'),ex=document.getElementById('ex');
 const directOnly=()=>{let top=cur;for(let i=0;i<4&&top.p;i++)top=top.p;const inTop=x=>{for(let y=x;y;y=y.p)if(y===top)return true;return false};all.forEach(o=>set(o,inTop(o.x)?'all':(o.x.d?'direct':'closed')));co.classList.add('on');ex.classList.remove('on');findMe()};
 const renderOrg=()=>{all=[];org.innerHTML='';const root=document.createElement('ul');const r0=build(T);r0.classList.add('solo');root.appendChild(r0);org.appendChild(root);directOnly()};
