@@ -66,7 +66,7 @@ button:focus-visible,.nd:focus-visible{outline:2px solid var(--seal);outline-off
 .sheet{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 12px 26px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .org{display:inline-block;min-width:100%}
 .org ul{display:flex;justify-content:center;margin:0;padding:20px 0 0;list-style:none;position:relative}
-.org li{display:flex;flex-direction:column;align-items:center;position:relative;padding:20px 5px 0}
+.org li{display:flex;flex-direction:column;align-items:center;position:relative;padding:20px 3px 0}
 .org li:before,.org li:after{content:"";position:absolute;top:0;right:50%;width:50%;height:20px;border-top:1px solid #cbbd9f}
 .org li:after{right:auto;left:50%;border-left:1px solid #cbbd9f}
 .org li.solo:before,.org li.solo:after{display:none}
@@ -76,11 +76,11 @@ button:focus-visible,.nd:focus-visible{outline:2px solid var(--seal);outline-off
 .org li.fv:after{border-radius:8px 0 0 0}
 .org ul ul:before{content:"";position:absolute;top:0;left:50%;height:20px;border-left:1px solid #cbbd9f}
 .org>ul{padding-top:0}.org>ul>li{padding-top:0}
-.box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 8px 8px;width:104px;text-align:center;line-height:1.3;position:relative}
+.box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 6px 7px;width:88px;text-align:center;line-height:1.3;position:relative}
 .box.has{cursor:pointer}.box.has:hover{border-color:#c8b893}
-.box .g{display:block;font-size:11px;color:var(--soft)}
-.box .h{display:block;font:700 16px/1.35 "Nanum Myeongjo",serif;white-space:nowrap}
-.box .k{display:block;font:700 16px/1.35 "Nanum Myeongjo",serif;color:var(--ink)}
+.box .g{display:block;font-size:11px;line-height:1.3;color:var(--soft)}
+.box .h{display:block;font:700 14px/1.35 "Nanum Myeongjo",serif;white-space:nowrap}
+.box .k{display:block;font:700 14px/1.35 "Nanum Myeongjo",serif;color:var(--ink)}
 .box .s{display:block;font-size:11px;color:var(--soft);margin-top:3px}
 .box .c{position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);font-size:11px;line-height:16px;min-width:22px;padding:0 6px;border-radius:999px;background:var(--gold);color:#fff;white-space:nowrap}
 .box .c:empty{display:none}
@@ -207,7 +207,7 @@ footer{padding:40px 0 56px;font-size:13px;color:var(--soft)}
 
 <section class="sec">
 <h2>전체 세계도</h2>
-<p class="d">족보 액자처럼 위에서 아래로 내려오는 조직도입니다. 직계 칸의 숫자를 누르면 그 대의 형제들이, 다른 칸의 숫자를 누르면 그 아래 자손이 펼쳐집니다.</p>
+<p class="d">족보 액자처럼 위에서 아래로 내려오는 조직도입니다. 고조부 아래 4대는 모두 펼쳐 두었습니다. 직계 칸의 숫자를 누르면 그 대의 형제들이, 다른 칸의 숫자를 누르면 그 아래 자손이 펼쳐집니다.</p>
 <div class="bar">
 <button id="co" class="on">직계만</button><button id="ex">모두 펼치기</button><button id="fm">내 위치</button>
 <span class="key"><span><i style="background:var(--sealbg)"></i>직계</span><span><i style="background:var(--seal)"></i>본인</span></span>
@@ -349,7 +349,7 @@ const build=x=>{
 const sc=document.getElementById('tree'),org=document.getElementById('org');
 const findMe=()=>{const m=sc.querySelector('.box.me');if(!m)return;const a=m.getBoundingClientRect(),b=sc.getBoundingClientRect();sc.scrollLeft+=(a.left+a.width/2)-(b.left+b.width/2)};
 const co=document.getElementById('co'),ex=document.getElementById('ex');
-const directOnly=()=>{all.forEach(o=>set(o,o.x.d?'direct':'closed'));co.classList.add('on');ex.classList.remove('on');findMe()};
+const directOnly=()=>{let top=cur;for(let i=0;i<4&&top.p;i++)top=top.p;const inTop=x=>{for(let y=x;y;y=y.p)if(y===top)return true;return false};all.forEach(o=>set(o,inTop(o.x)?'all':(o.x.d?'direct':'closed')));co.classList.add('on');ex.classList.remove('on');findMe()};
 const renderOrg=()=>{all=[];org.innerHTML='';const root=document.createElement('ul');const r0=build(T);r0.classList.add('solo');root.appendChild(r0);org.appendChild(root);directOnly()};
 const choose=t=>{mark(t);renderSpine();renderOrg();try{localStorage.setItem('gyeong-me',nodes.indexOf(t))}catch(e){}};
 try{const v=localStorage.getItem('gyeong-me');if(v!==null&&nodes[+v])cur=nodes[+v]}catch(e){}
