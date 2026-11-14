@@ -69,11 +69,11 @@ button:focus-visible,.nd:focus-visible{outline:2px solid var(--seal);outline-off
 .org li{display:flex;flex-direction:column;align-items:center;position:relative;padding:20px 5px 0}
 .org li:before,.org li:after{content:"";position:absolute;top:0;right:50%;width:50%;height:20px;border-top:1px solid #cbbd9f}
 .org li:after{right:auto;left:50%;border-left:1px solid #cbbd9f}
-.org li:only-child:before,.org li:only-child:after{display:none}
-.org li:only-child{padding-top:0}
-.org li:first-child:before,.org li:last-child:after{border:0}
-.org li:last-child:before{border-right:1px solid #cbbd9f;border-radius:0 8px 0 0}
-.org li:first-child:after{border-radius:8px 0 0 0}
+.org li.solo:before,.org li.solo:after{display:none}
+.org li.solo{padding-top:0}
+.org li.fv:before,.org li.lv:after{border:0}
+.org li.lv:before{border-right:1px solid #cbbd9f;border-radius:0 8px 0 0}
+.org li.fv:after{border-radius:8px 0 0 0}
 .org ul ul:before{content:"";position:absolute;top:0;left:50%;height:20px;border-left:1px solid #cbbd9f}
 .org>ul{padding-top:0}.org>ul>li{padding-top:0}
 .box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 10px 8px;min-width:76px;max-width:128px;text-align:center;line-height:1.3;position:relative}
@@ -105,6 +105,15 @@ button:focus-visible,.nd:focus-visible{outline:2px solid var(--seal);outline-off
 .kin .ar{background:none;border:none;padding:0;color:var(--soft)}
 .kin .gap{background:none;border:1px dashed var(--line);color:var(--soft)}
 .kin-note{font-size:13px;color:var(--soft);margin:10px 0 0}
+.pick{background:#faf8f4;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:6px 0 18px}
+.pick label{display:block;font-size:14px;font-weight:500;margin:0 0 8px}
+.pick-row{display:flex;gap:8px}
+.pick input{flex:1;min-width:0;height:44px;font:16px "Noto Sans KR",sans-serif;border:1px solid var(--line);border-radius:10px;padding:0 12px;background:#fff;color:var(--ink)}
+.pick input:focus-visible{outline:2px solid var(--seal);outline-offset:1px}
+.pick .err{color:var(--seal);font-size:13px;margin:6px 0 0;min-height:0}.pick .err:empty{display:none}
+.cands{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.cands:empty{display:none}
+.cands button{min-height:40px;font-size:14px;border-radius:10px}
+.cands button small{color:var(--soft);margin-left:6px}
 .notes{background:#faf8f4;border-left:3px solid var(--gold);padding:16px 20px;margin:0;font-size:15px;color:var(--soft)}
 .notes p{margin:0 0 10px}.notes p:last-child{margin:0}
 footer{padding:40px 0 56px;font-size:13px;color:var(--soft)}
@@ -159,7 +168,13 @@ footer{padding:40px 0 56px;font-size:13px;color:var(--soft)}
 
 <section class="sec">
 <h2>직계 계보</h2>
-<p class="d">경우선(28세)에 이르는 한 줄기를 시대별로 나눴습니다. 붉은 점은 기록에 업적이 남은 조상입니다. 11~13세는 기록된 생년이고, 그 아래 세대의 시기는 한 세대를 약 28년으로 잡아 추정했습니다.</p>
+<form class="pick" id="pick" autocomplete="off">
+<label for="q">이름으로 직계 찾기</label>
+<div class="pick-row"><input id="q" name="q" placeholder="우선" enterkeyhint="search"><button type="submit">찾기</button></div>
+<p class="err" id="err" role="alert"></p>
+<div class="cands" id="cands"></div>
+</form>
+<p class="d"><b id="who">경우선(28세)</b>에 이르는 한 줄기를 시대별로 나눴습니다. 붉은 점은 기록에 업적이 남은 조상입니다. 11~13세는 기록된 생년이고, 그 아래 세대의 시기는 한 세대를 약 28년으로 잡아 추정했습니다.</p>
 <ol class="spine" id="spine"></ol>
 </section>
 
@@ -192,7 +207,7 @@ footer{padding:40px 0 56px;font-size:13px;color:var(--soft)}
 
 <section class="sec">
 <h2>전체 세계도</h2>
-<p class="d">족보 액자처럼 위에서 아래로 내려오는 조직도입니다. 숫자가 붙은 칸을 누르면 그 아래 자손이 펼쳐집니다.</p>
+<p class="d">족보 액자처럼 위에서 아래로 내려오는 조직도입니다. 직계 칸의 숫자를 누르면 그 대의 형제들이, 다른 칸의 숫자를 누르면 그 아래 자손이 펼쳐집니다.</p>
 <div class="bar">
 <button id="co" class="on">직계만</button><button id="ex">모두 펼치기</button><button id="fm">내 위치</button>
 <span class="key"><span><i style="background:var(--sealbg)"></i>직계</span><span><i style="background:var(--seal)"></i>본인</span></span>
@@ -249,8 +264,8 @@ const T12=n(12,'時成','시성','헌납공 · 증 이조판서',1,[
          n(22,'元重','원중','배위 풍천임씨',1,[
           n(23,'錫周','석주','',0,[n(24,'南浩','남호','무후'),n(24,'時浩','시호','',0,[n(25,'允秀','윤수','옥 할아버지께 출계'),n(25,'益秀','익수','',0,[n(26,'武顯','무현','',0,[n(27,'','규열','지혜, 남선'),n(27,'','규진','회선, 천선'),n(27,'','규철','지선')]),n(26,'文顯','문현','만수 할아버지께 출계')])])]),
           n(23,'鈺','옥','',0,[n(24,'啓浩','계호','무후'),n(24,'東浩','동호','',0,[n(25,'允秀','윤수','양자',0,[n(26,'德顯','덕현','',0,[n(27,'','규황','가람'),n(27,'','규성','일선, 태선'),n(27,'','규삼','진이'),n(27,'','규명','부선, 인선')]),n(26,'乙顯','을현')])])]),
-          n(23,'鎬','호','배위 완산류씨',1,[n(24,'性浩','성호','',1,[n(25,'萬秀','만수','증조부',1,[n(26,'文顯','문현','조부 · 양자로 입적',1,[
-           n(27,'','규완','부친',1,[n(28,'','정원','라현, 제준'),n(28,'','원선','준우, 민준'),n(28,'','우선','본인 · 자녀 진희, 채은',2)]),
+          n(23,'鎬','호','배위 완산류씨',1,[n(24,'性浩','성호','',1,[n(25,'萬秀','만수','',1,[n(26,'文顯','문현','양자로 입적',1,[
+           n(27,'','규완','',1,[n(28,'','정원','라현, 제준'),n(28,'','원선','준우, 민준'),n(28,'','우선','',2,[n(29,'','진희'),n(29,'','채은')])]),
            n(27,'','규인','',0,[n(28,'','이선','수연, 제혁'),n(28,'','태선','제빈'),n(28,'','보선','제엽, 제영')]),
            n(27,'','규재','',0,[n(28,'','해선'),n(28,'','기선','제원, 제우'),n(28,'','광선','제호')]),
            n(27,'','규설')
@@ -288,18 +303,34 @@ const E={
  5:{n:'조선 전기',p:'14세기 말~16세기',d:'7세 참판공 여(餘)에게서 우리 파가 갈라지고, 11세 제학공 혼이 이조참판에 오릅니다.'},
  12:{n:'조선 중기',p:'16~17세기',d:'헌납공 시성이 여강(여주)으로 낙향하며 여주 문중이 시작되고, 석촌공 경섬이 일본 사행을 다녀옵니다.'},
  17:{n:'조선 후기',p:'17세기 후반~19세기 초',d:'여주에서 대를 이어 살며 문중이 여러 갈래로 나뉘었습니다.'},
- 23:{n:'근대',p:'19세기~20세기 초',d:'개항과 격변의 시기를 지나 증조부 대에 이릅니다.'},
- 26:{n:'현대',p:'20세기~오늘',d:'조부 문현부터 우선 님과 자녀까지입니다.'}};
+ 23:{n:'근대',p:'19세기~20세기 초',d:'개항과 격변의 시기를 지나 20세기로 이어집니다.'},
+ 26:{n:'현대',p:'20세기~오늘',d:'오늘을 사는 가족들의 세대입니다.'}};
 const era=e=>`<li class="era"><span class="era-b"><span class="era-n">${e.n}</span><span class="era-p">${e.p}</span></span><span class="era-d">${e.d}</span></li>`;
 const row=(r,i)=>`<li class="${r.st?'star':''}${r.me?' me':''}" style="--i:${i}"><span class="sg">${r.g}</span><span class="dot"></span><div class="sb">${r.h?`<span class="sh">${r.h}</span><span class="sk">${r.k}</span>`:`<span class="sh">${r.k}</span>`}${r.s?`<span class="sn">${r.s}</span>`:''}</div></li>`;
 const stars={'蕃':1,'復興':1,'渾':1,'時成':1,'暹':1,'有後':1,'三會':1};
-const L=[era(E.top),row({g:'시조',h:'慶珍',k:'경진',s:'평장공 · 평장사 지문하성사',st:1},0),row({g:'',h:'慶大升',k:'경대승',s:'대장군 · 정중부 주살, 왕권 회복',st:1},1),'<li class="gap">이후 30여 년은 세계가 불분명</li>'];
-let x=T,i=2;
-while(x){if(E[x.g])L.push(era(E[x.g]));L.push(row({g:x.g+'세',h:x.h,k:x.k,s:x.s,st:stars[x.h]?1:0,me:x.d==2},i++));x=x.c.find(y=>y.d)}
-L.push(row({g:'29세',h:'',k:'진희 · 채은',s:'자녀'},i));
-document.getElementById('spine').innerHTML=L.join('');
-const all=[];
-const set=(o,open)=>{o.ul.style.display=open?'':'none';o.t.textContent=open?'':'+'+o.x.c.length;o.el.setAttribute('aria-expanded',open)};
+const STOP=new Set(['무후','양자','출계','본인','부친','조부']);
+const kidsFrom=t=>{if(!t)return null;const p=t.split(/\s*[,·]\s*/);return p.length&&p.every(w=>/^[가-힣]{2}$/.test(w)&&!STOP.has(w))?p:null};
+const prep=(x,par)=>{x.p=par;x.s0=x.s;if(!x.c.length){const k=kidsFrom(x.s);if(k){x.c=k.map(w=>n(x.g+1,'',w));x.s0=''}}x.c.forEach(y=>prep(y,x))};
+prep(T,null);
+const nodes=[];(function walk(x){nodes.push(x);x.c.forEach(walk)})(T);
+const REL=['','부친','조부','증조부','고조부'];
+let cur=nodes.find(x=>x.d==2);
+const mark=t=>{nodes.forEach(x=>{x.d=0;x.s=x.s0});const path=[];for(let y=t;y;y=y.p)path.push(y);path.forEach((y,i)=>{y.d=i?1:2;const r=i?REL[i]:'본인';if(r)y.s=y.s0?r+' · '+y.s0:r});cur=t};
+const nm=x=>x.h?`${x.k}(${x.h})`:x.k;
+const renderSpine=()=>{
+ const L=[era(E.top),row({g:'시조',h:'慶珍',k:'경진',s:'평장공 · 평장사 지문하성사',st:1},0),row({g:'',h:'慶大升',k:'경대승',s:'대장군 · 정중부 주살, 왕권 회복',st:1},1),'<li class="gap">이후 30여 년은 세계가 불분명</li>'];
+ let x=T,i=2;
+ while(x){if(E[x.g])L.push(era(E[x.g]));L.push(row({g:x.g+'세',h:x.h,k:x.k,s:x.s,st:stars[x.h]?1:0,me:x.d==2},i++));x=x.d==2?null:x.c.find(y=>y.d)}
+ if(cur.c.length)L.push(row({g:(cur.g+1)+'세',h:'',k:cur.c.map(y=>y.k).join(' · '),s:'자녀'},i));
+ document.getElementById('spine').innerHTML=L.join('');
+ document.getElementById('who').textContent=`${cur.h?cur.k+'('+cur.h+')':'경'+cur.k}(${cur.g}세)`;
+};
+let all=[];
+const lay=(lis)=>{const v=lis.filter(l=>l.style.display!=='none');lis.forEach(l=>l.classList.remove('solo','fv','lv'));if(v.length===1)v[0].classList.add('solo');else if(v.length){v[0].classList.add('fv');v[v.length-1].classList.add('lv')}};
+const set=(o,m)=>{o.m=m;
+ if(m==='closed'){o.ul.style.display='none';o.t.textContent='+'+o.x.c.length}
+ else{o.ul.style.display='';let h=0;o.kids.forEach((l,i)=>{const hide=m==='direct'&&!o.x.c[i].d;l.style.display=hide?'none':'';if(hide)h++});lay(o.kids);o.t.textContent=h?'+'+h:''}
+ o.el.setAttribute('aria-expanded',m!=='closed')};
 const build=x=>{
  const li=document.createElement('li');
  const d=document.createElement('div');
@@ -307,24 +338,40 @@ const build=x=>{
  d.innerHTML=`<span class="g">${x.g}세</span>${x.h?`<span class="h">${x.h}</span><span class="k">${x.k}</span>`:`<span class="h">${x.k}</span>`}${x.s?`<span class="s">${x.s}</span>`:''}${x.c.length?'<span class="c"></span>':''}`;
  li.appendChild(d);
  if(x.c.length){
-  const ul=document.createElement('ul');x.c.forEach(y=>ul.appendChild(build(y)));li.appendChild(ul);
-  const o={x,ul,t:d.querySelector('.c'),el:d};all.push(o);
+  const ul=document.createElement('ul');const kids=x.c.map(y=>build(y));kids.forEach(k=>ul.appendChild(k));li.appendChild(ul);
+  const o={x,ul,kids,t:d.querySelector('.c'),el:d};all.push(o);
   d.tabIndex=0;d.setAttribute('role','button');
-  const tg=()=>set(o,ul.style.display==='none');
+  const tg=()=>set(o,o.m==='all'?(x.d?'direct':'closed'):'all');
   d.addEventListener('click',tg);d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tg()}});
  }
  return li;
 };
-const root=document.createElement('ul');root.appendChild(build(T));document.getElementById('org').appendChild(root);
-const sc=document.getElementById('tree');
+const sc=document.getElementById('tree'),org=document.getElementById('org');
 const findMe=()=>{const m=sc.querySelector('.box.me');if(!m)return;const a=m.getBoundingClientRect(),b=sc.getBoundingClientRect();sc.scrollLeft+=(a.left+a.width/2)-(b.left+b.width/2)};
 const co=document.getElementById('co'),ex=document.getElementById('ex');
-const directOnly=()=>{all.forEach(o=>set(o,!!o.x.d));co.classList.add('on');ex.classList.remove('on');findMe()};
-directOnly();
+const directOnly=()=>{all.forEach(o=>set(o,o.x.d?'direct':'closed'));co.classList.add('on');ex.classList.remove('on');findMe()};
+const renderOrg=()=>{all=[];org.innerHTML='';const root=document.createElement('ul');const r0=build(T);r0.classList.add('solo');root.appendChild(r0);org.appendChild(root);directOnly()};
+const choose=t=>{mark(t);renderSpine();renderOrg();try{localStorage.setItem('gyeong-me',nodes.indexOf(t))}catch(e){}};
+try{const v=localStorage.getItem('gyeong-me');if(v!==null&&nodes[+v])cur=nodes[+v]}catch(e){}
+choose(cur);
 window.addEventListener('load',findMe);
-ex.addEventListener('click',()=>{all.forEach(o=>set(o,true));ex.classList.add('on');co.classList.remove('on');findMe()});
+const q=document.getElementById('q'),err=document.getElementById('err'),cands=document.getElementById('cands');
+q.addEventListener('input',()=>{err.textContent=''});
+document.getElementById('pick').addEventListener('submit',e=>{
+ e.preventDefault();cands.innerHTML='';
+ let v=q.value.trim().replace(/\s/g,'');
+ if(!v){err.textContent='이름을 입력하세요.';return}
+ const keys=[v];if(/^경[가-힣]{1,3}$/.test(v))keys.push(v.slice(1));if(v.startsWith('慶'))keys.push(v.slice(1));
+ const hit=nodes.filter(x=>keys.includes(x.k)||keys.includes(x.h));
+ if(!hit.length){err.textContent='세계도에 없는 이름입니다. 한글 이름이나 한자로 다시 입력하세요.';return}
+ if(hit.length===1){choose(hit[0]);document.getElementById('spine').scrollIntoView({behavior:'smooth',block:'start'});return}
+ err.textContent='같은 이름이 여럿 있습니다. 한 분을 고르세요.';
+ cands.innerHTML=hit.map((x,i)=>`<button type="button" data-i="${nodes.indexOf(x)}">${x.g}세 ${nm(x)}<small>${x.p?nm(x.p)+'의 자녀':''}</small></button>`).join('');
+});
+cands.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;choose(nodes[+b.dataset.i]);cands.innerHTML='';err.textContent='';document.getElementById('spine').scrollIntoView({behavior:'smooth',block:'start'})});
+ex.addEventListener('click',()=>{all.forEach(o=>set(o,'all'));ex.classList.add('on');co.classList.remove('on');findMe()});
 co.addEventListener('click',directOnly);
-document.getElementById('fm').addEventListener('click',()=>{all.forEach(o=>{if(o.x.d)set(o,true)});findMe();sc.scrollIntoView({behavior:'smooth',block:'center'})});
+document.getElementById('fm').addEventListener('click',()=>{all.forEach(o=>{if(o.x.d&&o.m==='closed')set(o,'direct')});findMe();sc.scrollIntoView({behavior:'smooth',block:'center'})});
 }
 </script>
 </body>
